@@ -2,6 +2,7 @@ package br.com.gabriellysilva.tarefas.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.gabriellysilva.tarefas.entity.Tarefa;
@@ -16,8 +17,11 @@ public class TarefaService {
     }
 
     public List<Tarefa> criar(Tarefa tarefa) {
-        tarefaRepository.save(tarefa);
-        return listar();
+        Sort sort = Sort.by("prioridade").descending().and(
+            Sort.by("nome").ascending()
+        );
+
+        return tarefaRepository.findAll(sort); 
     }
 
     public List<Tarefa> listar() {
